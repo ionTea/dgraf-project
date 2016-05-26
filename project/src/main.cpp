@@ -6,8 +6,24 @@
 #include "Entity\Camera.hpp"
 #include "Entity\Boid.hpp"
 #include "Entity\Cube.hpp"
+#include "QuadTree.hpp"
+#include "Util.hpp"
 
 int main() {
+	//Entity::root_node = new QuadTree(5000.0, sf::Vector3f(-5000.0 / 2, 0.0, -5000.0 / 2));
+	Entity::root_node = new QuadTree(600.0);
+
+	p("OIJK");
+	//new Entity(sf::Vector3f(5.0, 5.0, 0.0));
+	//new Entity(sf::Vector3f(215.0, 465.1, 0.0));
+	//new Entity(sf::Vector3f(100.0, 145.1, 0.0));
+
+	//char in;
+	//std::cin >> in;
+	//return 0;
+
+
+
 	//Create window
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
@@ -41,7 +57,7 @@ int main() {
 	camera.rot.y = 45;
 	
 	//Create some cubes (snoid placeholder)
-	std::vector<Cube> cubes;
+	//std::vector<Cube> cubes;
 	int range;
 		
 	range = 30;
@@ -49,23 +65,32 @@ int main() {
 	float csize = 20.0;
 	for(int i = 0; i < count; i++) {
 		for(int j = 0; j < count; j++) {
-			cubes.push_back(Cube(sf::Vector3f((i - count/2) * csize,
-				-csize/2,
-				(j - count/2) * csize)));
-			cubes.back().size = csize;
-			cubes.back().color = sf::Color(10, 15 + (rand() % 3), 25 + (rand() % 3));
+			//cubes.push_back(Cube(sf::Vector3f((i - count/2) * csize,
+			//	-csize/2,
+			//	(j - count/2) * csize)));
+			//cubes.back().size = csize;
+			//cubes.back().color = sf::Color(10, 15 + (rand() % 3), 25 + (rand() % 3));
 		}
 	}
 
-	std::vector<Boid> boids;
-	for (int i = 0; i < 1000; i++) {
-		boids.push_back(Boid(sf::Vector3f(0.0, 20.0, 0.0)));
+
+	std::vector<Boid*> boids;
+	for (int i = 5; i < 450; i += 100) {
+		for (int j = 5; j < 450; j += 100) {
+			std::cout << "inserting boid at: x=" << i << " z=" << j << std::endl;
+			std::cout << "count" << QuadTree::node_count << std::endl;
+			boids.push_back(new Boid(sf::Vector3f(i, 0.0, j)));
+			boids.back()->size = 5.0;
+		}
 	}
-	boids.push_back(Boid(sf::Vector3f(0.0, 20.0, 0.0)));
-	boids.back().size = 5.0;
-	boids.back().c1 = sf::Color(0, 100, 150);
-	boids.back().c2 = sf::Color(0, 200, 0);
-	boids.back().ROT_SPEED_MAX = 180;
+	//boids.push_back(new Boid(sf::Vector3f(50 * (rand() % 100000) / 100000, 20.0, 50 * (rand() % 100000) / 100000)));
+	//boids.back()->size = 5.0;
+	//boids.back()->c1 = sf::Color(0, 100, 150);
+	//boids.back()->c2 = sf::Color(0, 200, 0);
+	//boids.back()->ROT_SPEED_MAX = 180;
+
+	p("dflsjkdnfoksd fkjs dkfj sdkfj ");
+	p(QuadTree::node_count);
 
 	sf::Clock frame_clock;
 	float frame_time = 0.0;
@@ -113,8 +138,8 @@ int main() {
 
 		//Update stuff
 		camera.update(frame_time);
-		for (auto & c : cubes) c.update(frame_time);
-		for (auto & b : boids) b.update(frame_time);
+		//for (auto & c : cubes) c.update(frame_time);
+		for (auto & b : boids) b->update(frame_time);
 
 		//Draw stuff
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -123,8 +148,9 @@ int main() {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		for (auto & c : cubes) c.draw();
-		for (auto & b : boids) b.draw();
+		//for (auto & c : cubes) c.draw();
+		for (auto & b : boids) b->draw();
+		Entity::root_node->draw();
 
 		window.pushGLStates();
 		//Draw other stuff
