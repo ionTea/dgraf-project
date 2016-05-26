@@ -6,8 +6,20 @@
     <description>Recent content in Posts on Biods project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 24 May 2016 14:21:19 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 25 May 2016 14:45:13 +0200</lastBuildDate>
     <atom:link href="http://iontea.github.io/dgraf-project/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Snoids?</title>
+      <link>http://iontea.github.io/dgraf-project/post/snoids/</link>
+      <pubDate>Wed, 25 May 2016 14:45:13 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/snoids/</guid>
+      <description>&lt;p&gt;The first demo of some simple boids. This version only uses random behavior for all the boids. A bigger meaner boid was added for aesthetics.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/v1.png&#34; alt=&#34;snoid&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Project Specification</title>
