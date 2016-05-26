@@ -85,7 +85,7 @@ struct Boid : public Entity {
 			glVertex3f(0.2, -0.1, -0.4);
 		}
 		glEnd();
-		glScalef(1 / size, 1 / size, 1 / (size*r));
+		glScalef(1 / size, 1 / size, 1 / (size));
 		glPopMatrix();
 	}
 };
