@@ -1,6 +1,6 @@
 +++
-date = "2016-05-27T12:47:58+02:00"
-draft = true
+date = "2016-05-27T13:08:56+02:00"
+draft = false
 title = "Quadtree - for great success"
 
 +++
