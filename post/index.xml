@@ -6,8 +6,44 @@
     <description>Recent content in Posts on Biods project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 25 May 2016 14:45:13 +0200</lastBuildDate>
+    <lastBuildDate>Fri, 27 May 2016 13:08:56 +0200</lastBuildDate>
     <atom:link href="http://iontea.github.io/dgraf-project/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Quadtree - for great success</title>
+      <link>http://iontea.github.io/dgraf-project/post/quad-tree/</link>
+      <pubDate>Fri, 27 May 2016 13:08:56 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/quad-tree/</guid>
+      <description>
+
+&lt;p&gt;We wanted our Boids (currently meaning &lt;em&gt;Beak-oid like objects&lt;/em&gt;) to have high
+performance when looking for other Boids in proximity, both for collision
+detection and for our grouping algorithm. So we started implementing a Quadtree
+structure to partition our 2D space into areas, and storing the entities in the
+Quadtree. Below is an image on the current crude Quadtree (it&amp;rsquo;s not 100% bug free. yet.).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/quadtree-initial.PNG&#34; alt=&#34;Quadtree&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you can see, the area is partitioned into smaller areas where each contain a entity. The upside
+of using this partitioning is that the entities that are close to each other in the tree-structure
+will be close to each other in real-space as well. This means that the searching for neighbors will be fast.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/quadtree-2.png&#34; alt=&#34;Quadtree again&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;current-objective:de39d265557135bc5a2a773a5a477932&#34;&gt;Current Objective&lt;/h3&gt;
+
+&lt;p&gt;We are currenlty working on getting the Quadtree working as intended. It is having some trouble with null-pointers,
+and &lt;em&gt;&amp;ldquo;loosing&amp;rdquo;&lt;/em&gt; entities. But it&amp;rsquo;s just another days work in computer science.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;WE EAT BUGS FOR BREAKFAST&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;Yolo.
+Peace out.&lt;/p&gt;
+
+&lt;p&gt;Jonathan and Mathias&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Snoids?</title>
