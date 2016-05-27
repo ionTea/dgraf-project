@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Biods project</title>
+    <link>http://iontea.github.io/dgraf-project/post/</link>
+    <description>Recent content in Posts on Biods project</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 25 May 2016 14:45:13 +0200</lastBuildDate>
+    <atom:link href="http://iontea.github.io/dgraf-project/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Snoids?</title>
+      <link>http://iontea.github.io/dgraf-project/post/snoids/</link>
+      <pubDate>Wed, 25 May 2016 14:45:13 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/snoids/</guid>
+      <description>&lt;p&gt;The first demo of some simple boids. This version only uses random behavior for all the boids. A bigger meaner boid was added for aesthetics.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/v1.png&#34; alt=&#34;snoid&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Project Specification</title>
+      <link>http://iontea.github.io/dgraf-project/post/first-post/</link>
+      <pubDate>Tue, 24 May 2016 14:21:19 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/first-post/</guid>
+      <description>
+
+&lt;h1 id=&#34;project-specification:f3b70d76da56e15d82042b9ef176d71f&#34;&gt;Project Specification&lt;/h1&gt;
+
+&lt;h2 id=&#34;background:f3b70d76da56e15d82042b9ef176d71f&#34;&gt;Background&lt;/h2&gt;
+
+&lt;p&gt;Simulation of group behaviour can take many forms, and can be done in both sophisticated as well as simple ways. Allowing the different agents to interact with each other as well as other objects in an environment can give rise to interesting behaviour. There is however lots of things to take into account when building this kind of grouping behaviour, for example grouping of actors, collision detection as well as collision avoidance (actively moving out of the way of something).&lt;/p&gt;
+
+&lt;h2 id=&#34;problem:f3b70d76da56e15d82042b9ef176d71f&#34;&gt;Problem&lt;/h2&gt;
+
+&lt;p&gt;We are interested in implementing a boid system, where we simulate the behaviour of predator and prey, where the prays exhibit a grouping behavior of staying together while avoiding the predator.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=FQ4YJbD0zRM&#34;&gt;Example of fishes + shark&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://www.youtube.com/watch?v=rN8DzlgMt3M&#34;&gt;Example of birds + evil birds&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;implementation:f3b70d76da56e15d82042b9ef176d71f&#34;&gt;Implementation&lt;/h2&gt;
+
+&lt;p&gt;We are not very interested in the aesthetics, we just want to model the behaviour. So if we render fishes or if we render dots, it doesn’t make a difference. So we are unsure if we should use Unity at all, since it might just be unnecessary overhead, and we can’t leverage any of the knowledge from the labs. We are currenly thinking of using SFML (&lt;a href=&#34;http://www.sfml-dev.org/&#34;&gt;http://www.sfml-dev.org/&lt;/a&gt;) just to render stuff, and implement the actor behaviour in C++.&lt;/p&gt;
+
+&lt;h2 id=&#34;evaluation:f3b70d76da56e15d82042b9ef176d71f&#34;&gt;Evaluation&lt;/h2&gt;
+
+&lt;p&gt;Does it look bonkes siq nice? Then we are happy.&lt;/p&gt;
+
+&lt;h2 id=&#34;contingency-plan:f3b70d76da56e15d82042b9ef176d71f&#34;&gt;Contingency Plan&lt;/h2&gt;
+
+&lt;p&gt;We will try to implement the behaviour ourselves but using a library such as RVO is not out of the question.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

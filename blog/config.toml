@@ -1,0 +1,4 @@
+baseurl = "http://iontea.github.io/dgraf-project/"
+languageCode = "en-us"
+title = "Biods project"
+canonifyurls = true
