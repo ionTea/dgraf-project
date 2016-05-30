@@ -5,7 +5,6 @@ QuadTree * Entity::root_node = nullptr;
 
 Entity::Entity(sf::Vector3f pos, sf::Vector3f vel) :
 		pos(pos), vel(vel), rot(0.0, 0.0), direction(0.0, 0.0, 1.0), left(-1.0, 0.0, 0.0) {
-	node = root_node->insert(this);
 }
 
 void Entity::update(float elapsed_time) {

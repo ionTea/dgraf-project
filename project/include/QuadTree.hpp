@@ -18,11 +18,11 @@ struct QuadTree {
 
 	QuadTree(float size, sf::Vector3f pos = sf::Vector3f(0.0, 0.0, 0.0));
 
-	QuadTree * update_node(Entity * e);
+	bool update_entity(Entity * e);
 	bool in_node(sf::Vector3f const & p);
 	int in_quad(sf::Vector3f const & p);
 	void subdivide();
-	QuadTree * insert(Entity * e);
+	bool insert(Entity * e);
 
 	void draw();
 

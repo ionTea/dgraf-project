@@ -3,7 +3,7 @@
 #include "Util.hpp"
 
 struct Boid : public Entity {
-	float MAX_SPEED = 22.0;
+	float MAX_SPEED = 62.0;
 	float ROT_SPEED_MAX = 360.0;
 
 	float size;
@@ -18,6 +18,7 @@ struct Boid : public Entity {
 		rot.x = rand() % 360;
 		rot_speed = 1360;
 		update_directions();
+		root_node->insert(this);
 		internal_clock.restart();
 	}
 
@@ -43,7 +44,7 @@ struct Boid : public Entity {
 			rot_speed = ROT_SPEED_MAX - ROT_SPEED_MAX * 2 * ((rand() % (1000)) / (1000.0));
 		}
 		if (node != nullptr) {
-			node = node->update_node(this);
+			node->update_entity(this);
 		} else {
 			c1 = sf::Color(255, 255, 255);
 			c2 = sf::Color(255, 15, 255);

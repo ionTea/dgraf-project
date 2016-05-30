@@ -10,19 +10,7 @@
 #include "Util.hpp"
 
 int main() {
-	//Entity::root_node = new QuadTree(5000.0, sf::Vector3f(-5000.0 / 2, 0.0, -5000.0 / 2));
-	Entity::root_node = new QuadTree(600.0);
-
-	p("OIJK");
-	//new Entity(sf::Vector3f(5.0, 5.0, 0.0));
-	//new Entity(sf::Vector3f(215.0, 465.1, 0.0));
-	//new Entity(sf::Vector3f(100.0, 145.1, 0.0));
-
-	//char in;
-	//std::cin >> in;
-	//return 0;
-
-
+	Entity::root_node = new QuadTree(5000.0, sf::Vector3f(-5000.0 / 2, 0.0, -5000.0 / 2));
 
 	//Create window
 	sf::ContextSettings settings;
@@ -77,24 +65,16 @@ int main() {
 	std::vector<Boid*> boids;
 	for (int i = 5; i < 450; i += 100) {
 		for (int j = 5; j < 450; j += 100) {
-			std::cout << "inserting boid at: x=" << i << " z=" << j << std::endl;
-			std::cout << "count" << QuadTree::node_count << std::endl;
 			boids.push_back(new Boid(sf::Vector3f(i, 0.0, j)));
 			boids.back()->size = 5.0;
 		}
 	}
-	//boids.push_back(new Boid(sf::Vector3f(50 * (rand() % 100000) / 100000, 20.0, 50 * (rand() % 100000) / 100000)));
-	//boids.back()->size = 5.0;
-	//boids.back()->c1 = sf::Color(0, 100, 150);
-	//boids.back()->c2 = sf::Color(0, 200, 0);
-	//boids.back()->ROT_SPEED_MAX = 180;
-
-	p("dflsjkdnfoksd fkjs dkfj sdkfj ");
-	p(QuadTree::node_count);
 
 	sf::Clock frame_clock;
 	float frame_time = 0.0;
 	while (window.isOpen()) {
+		p(QuadTree::node_count);
+
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Resized) {

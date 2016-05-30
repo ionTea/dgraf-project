@@ -20,7 +20,7 @@ struct Camera : public Entity {
 	virtual void draw() {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
-		glFrustum(-1, 1, -resolution.y / resolution.x, resolution.y / resolution.x, 1.0, 1000.0);
+		glFrustum(-1, 1, -resolution.y / resolution.x, resolution.y / resolution.x, 1.0, 5000.0);
 		glRotatef(rot.y, 1.0, 0.0, 0.0);
 		glRotatef(rot.x, 0.0, 1.0, 0.0);
 		glTranslatef(pos.x, pos.y, pos.z);
