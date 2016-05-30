@@ -13,6 +13,27 @@ QuadTree::QuadTree(float size, sf::Vector3f pos) : size(size), pos(pos) {
 	node_count++;
 }
 
+//bool QuadTree::clean() {
+//	if(entity != nullptr) {
+//		return false;
+//	}
+//	bool deletable = true;
+//	for(int i = 0; i < 4; i++) {
+//		if(children[i] != nullptr) {
+//			if(children[i]->clean()) {
+//				delete children[i];
+//				children[i] = nullptr;
+//			} else {
+//				deletable = false;
+//			}
+//		}
+//	}
+//	return deletable;
+//}
+//
+//QuadTree::~QuadTree() {
+//}
+
 bool QuadTree::update_entity(Entity * e) {
 	QuadTree * old_node = this;
 	QuadTree * current_node = this;

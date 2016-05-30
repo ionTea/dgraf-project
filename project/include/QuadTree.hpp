@@ -17,6 +17,9 @@ struct QuadTree {
 	QuadTree * children[4];
 
 	QuadTree(float size, sf::Vector3f pos = sf::Vector3f(0.0, 0.0, 0.0));
+	
+	//~QuadTree();
+	//bool clean();
 
 	bool update_entity(Entity * e);
 	bool in_node(sf::Vector3f const & p);
