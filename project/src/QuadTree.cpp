@@ -1,4 +1,5 @@
 #include "QuadTree.hpp"
+//#include <math.h>
 
 int QuadTree::node_count = 0;
 
@@ -33,6 +34,65 @@ QuadTree::QuadTree(float size, sf::Vector3f pos) : size(size), pos(pos) {
 //
 //QuadTree::~QuadTree() {
 //}
+
+std::vector<Entity *> QuadTree::get_neighbors(Entity * e, float dist) {
+	// TODO, start search at node?
+	QuadTree * current_node = e->node;
+	std::vector<Entity*> result;
+	while(!((e->pos.x + dist <= current_node->pos.x + current_node->size) &&  // right
+		(e->pos.x - dist > current_node->pos.x) &&							  // left
+		(e->pos.z + dist <= current_node->pos.z + current_node->size) &&	  // top
+		(e->pos.z - dist > current_node->pos.z))) {							  // bottom
+		if(current_node->parent != nullptr) {
+			current_node = current_node->parent;
+		} else {
+			// range exceeeds the biggest quadtree node, search entire tree
+			break;
+		}
+	}
+
+	current_node->add_entities_in_range(e, dist, result);
+	return result;
+}
+
+void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*> & res) {
+	// TODO, start search at node?
+	bool x1 = (abs(pos.x - e->pos.x) < dist);
+	bool x2 = (abs(pos.x + size - e->pos.x) < dist);
+	bool z1 = (abs(pos.z - e->pos.z) < dist);
+	bool z2 = (abs(pos.z + size - e->pos.x) < dist);
+
+	if(x1 && x2 && z1 && z2) {
+		//Completly in range, return this QuadTree
+		add_entites(res);
+	}
+	if((x1 || x2) && (z1 || z2)) {
+		// atleast part of the quadtree is in range
+		if(entity != nullptr) {
+			add_entites(res);
+			return;
+		}
+		for(int i = 0; i < 4; ++i) {
+			if(children[i] != nullptr) {
+				children[i]->add_entities_in_range(e, dist, res);
+			}
+		}
+	}
+}
+
+void QuadTree::add_entites(std::vector<Entity*> & res){
+	if(entity != nullptr) {
+		res.push_back(entity);
+		return;
+	}
+	for(size_t i = 0; i < 4; i++) {
+		if(children[i] != nullptr) {
+			children[i]->add_entites(res);
+		}
+	}
+	return;
+}
+
 
 bool QuadTree::update_entity(Entity * e) {
 	QuadTree * old_node = this;
