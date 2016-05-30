@@ -45,12 +45,14 @@ std::vector<Entity *> QuadTree::get_neighbors(Entity * e, float dist) {
 		(e->pos.z - dist > current_node->pos.z))) {							  // bottom
 		if(current_node->parent != nullptr) {
 			current_node = current_node->parent;
+			
+			std::cout << current_node->size << " ";
 		} else {
 			// range exceeeds the biggest quadtree node, search entire tree
 			break;
 		}
 	}
-
+	std::cout << "KDKJ" << std::endl;
 	current_node->add_entities_in_range(e, dist, result);
 	return result;
 }
@@ -61,10 +63,15 @@ void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*
 	bool x2 = (abs(pos.x + size - e->pos.x) < dist);
 	bool z1 = (abs(pos.z - e->pos.z) < dist);
 	bool z2 = (abs(pos.z + size - e->pos.x) < dist);
+	
+	std::cout << x1 << x2 << z1 << z2 << std::endl;
+	std::cout << pos.x << " " << e->pos.x << std::endl;
+	std::cout << abs(pos.x - e->pos.x) << " " << dist << std::endl;
 
 	if(x1 && x2 && z1 && z2) {
 		//Completly in range, return this QuadTree
 		add_entites(res);
+		return;
 	}
 	if((x1 || x2) && (z1 || z2)) {
 		// atleast part of the quadtree is in range
@@ -202,15 +209,6 @@ void QuadTree::draw_t() {
 	}
 	glEnd();
 	if(entity != nullptr) {
-		glColor3f(0.0, 1.0, 0.0);
-		glBegin(GL_LINE_LOOP);
-		{
-			glVertex3f(entity->pos.x - 2.0, 0.0, entity->pos.z - 2.0);
-			glVertex3f(entity->pos.x + 2.0, 0.0, entity->pos.z - 2.0);
-			glVertex3f(entity->pos.x + 2.0, 0.0, entity->pos.z + 2.0);
-			glVertex3f(entity->pos.x - 2.0, 0.0, entity->pos.z + 2.0);
-		}
-		glEnd();
 		glColor3f(0.0, 1.0, 1.0);
 		glBegin(GL_LINES);
 		{

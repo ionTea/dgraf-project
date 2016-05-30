@@ -69,6 +69,8 @@ int main() {
 			boids.back()->size = 5.0;
 		}
 	}
+	boids.back()->size = 15.0;
+
 
 	sf::Clock frame_clock;
 	float frame_time = 0.0;
@@ -131,7 +133,19 @@ int main() {
 		//for (auto & c : cubes) c.draw();
 		for (auto & b : boids) b->draw();
 		Entity::root_node->draw();
-
+		auto neigh = boids.back()->node->get_neighbors(boids.back(), 600.0);
+		std::cout << "Neighbor size: " << neigh.size() << std::endl;
+		for(auto * b : neigh) {
+			glColor3f(0.0, 1.0, 0.0);
+			glBegin(GL_LINE_LOOP);
+			{
+				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
+				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
+				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
+				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
+			}
+			glEnd();
+		}
 		window.pushGLStates();
 		//Draw other stuff
 		window.draw(text);
