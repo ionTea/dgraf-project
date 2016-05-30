@@ -6,8 +6,24 @@
     <description>Recent content on Biods project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 May 2016 13:08:56 +0200</lastBuildDate>
+    <lastBuildDate>Mon, 30 May 2016 13:15:34 +0200</lastBuildDate>
     <atom:link href="http://iontea.github.io/dgraf-project/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Quad tree working (ish)</title>
+      <link>http://iontea.github.io/dgraf-project/post/quad-tree-working-ish/</link>
+      <pubDate>Mon, 30 May 2016 13:15:34 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/quad-tree-working-ish/</guid>
+      <description>&lt;p&gt;We got the quadtree to work but without any restructuring. ie we do not remove empty nodes. Performance is not the priority right now so we ignore that for now. We solved the issue by rewriting the insert and update-node functions from scratch and made them much more clean. The search for beak neighbors are the next thing to do.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/quadtree-working-5.PNG&#34; alt=&#34;Drawing debug, showing node/entity relation&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/quadtree-working-3.PNG&#34; alt=&#34;1936 boids&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/quadtree-working-4.PNG&#34; alt=&#34;Closeup&#34; /&gt;&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Quadtree - for great success</title>
