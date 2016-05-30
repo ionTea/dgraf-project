@@ -32,51 +32,37 @@ int main() {
 	sf::Mouse::setPosition(mouse_center);
 	float mouse_sensitivity = 0.1;
 
-	sf::Font font;
+	//Font and text stuff
+	//sf::Font font;
 	//Mac
 	//font.loadFromFile("~/Library/Fonts/TODO.ttf");
 	//Ubuntu
 	//font.loadFromFile("/usr/share/fonts/TODO.ttf");
-	font.loadFromFile("C:/Windows/Fonts/consola.ttf");
-	sf::Text text("Is this for snoids?", font);
+	//font.loadFromFile("C:/Windows/Fonts/consola.ttf");
+	//sf::Text text("Is this for snoids?", font);
 
 	//Create our camera
 	Camera camera(size, sf::Vector3f(0.0, -40.0, -30.0));
-	camera.rot.y = 45;
+	camera.rotate(0, 45);
 	
-	//Create some cubes (snoid placeholder)
-	//std::vector<Cube> cubes;
-	int range;
-		
-	range = 30;
-	int count = 30;
-	float csize = 20.0;
-	for(int i = 0; i < count; i++) {
-		for(int j = 0; j < count; j++) {
-			//cubes.push_back(Cube(sf::Vector3f((i - count/2) * csize,
-			//	-csize/2,
-			//	(j - count/2) * csize)));
-			//cubes.back().size = csize;
-			//cubes.back().color = sf::Color(10, 15 + (rand() % 3), 25 + (rand() % 3));
-		}
-	}
-
-
+	//Create some boids
 	std::vector<Boid*> boids;
-	for (int i = 5; i < 450; i += 100) {
-		for (int j = 5; j < 450; j += 100) {
+	Boid big_boid(sf::Vector3f(0,0,0));
+	big_boid.size = 20.0;
+	big_boid.c1 = sf::Color(100, 255, 100);
+	big_boid.c2 = sf::Color(0, 255, 0);
+
+	boids.push_back(&big_boid);
+	for (int i = -250; i < 250; i += 10) {
+		for (int j = -250; j < 250; j += 10) {
 			boids.push_back(new Boid(sf::Vector3f(i, 0.0, j)));
 			boids.back()->size = 5.0;
 		}
 	}
-	boids.back()->size = 15.0;
-
 
 	sf::Clock frame_clock;
 	float frame_time = 0.0;
 	while (window.isOpen()) {
-		p(QuadTree::node_count);
-
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Resized) {
@@ -120,7 +106,6 @@ int main() {
 
 		//Update stuff
 		camera.update(frame_time);
-		//for (auto & c : cubes) c.update(frame_time);
 		for (auto & b : boids) b->update(frame_time);
 
 		//Draw stuff
@@ -130,26 +115,29 @@ int main() {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		//for (auto & c : cubes) c.draw();
-		for (auto & b : boids) b->draw();
-		Entity::root_node->draw();
-		auto neigh = boids.back()->node->get_neighbors(boids.back(), 600.0);
-		std::cout << "Neighbor size: " << neigh.size() << std::endl;
+		//for (auto & b : boids) b->draw();
+		//Entity::root_node->draw();
+		float radius = 30.0;
+		auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
+		draw_circle(big_boid.pos, radius);
+
 		for(auto * b : neigh) {
-			glColor3f(0.0, 1.0, 0.0);
-			glBegin(GL_LINE_LOOP);
-			{
-				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
-				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
-				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
-				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
-			}
-			glEnd();
+			b->draw();
+			//glColor3f(0.0, 1.0, 0.0);
+			//glBegin(GL_LINE_LOOP);
+			//{
+			//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
+			//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
+			//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
+			//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
+			//}
+			//glEnd();
 		}
-		window.pushGLStates();
+
+		//window.pushGLStates();
 		//Draw other stuff
-		window.draw(text);
-		window.popGLStates();
+		//window.draw(text);
+		//window.popGLStates();
 
 		window.display();
 	}

@@ -35,6 +35,7 @@ QuadTree::QuadTree(float size, sf::Vector3f pos) : size(size), pos(pos) {
 //QuadTree::~QuadTree() {
 //}
 
+
 std::vector<Entity *> QuadTree::get_neighbors(Entity * e, float dist) {
 	// TODO, start search at node?
 	QuadTree * current_node = e->node;
@@ -45,36 +46,47 @@ std::vector<Entity *> QuadTree::get_neighbors(Entity * e, float dist) {
 		(e->pos.z - dist > current_node->pos.z))) {							  // bottom
 		if(current_node->parent != nullptr) {
 			current_node = current_node->parent;
-			
-			std::cout << current_node->size << " ";
 		} else {
 			// range exceeeds the biggest quadtree node, search entire tree
 			break;
 		}
 	}
-	std::cout << "KDKJ" << std::endl;
 	current_node->add_entities_in_range(e, dist, result);
 	return result;
 }
 
 void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*> & res) {
-	// TODO, start search at node?
-	bool x1 = (abs(pos.x - e->pos.x) < dist);
-	bool x2 = (abs(pos.x + size - e->pos.x) < dist);
-	bool z1 = (abs(pos.z - e->pos.z) < dist);
-	bool z2 = (abs(pos.z + size - e->pos.x) < dist);
-	
-	std::cout << x1 << x2 << z1 << z2 << std::endl;
-	std::cout << pos.x << " " << e->pos.x << std::endl;
-	std::cout << abs(pos.x - e->pos.x) << " " << dist << std::endl;
+	draw_p();
+	float n = dist*dist;
+	bool h1 = (e->pos.x - (pos.x)) * (e->pos.x - (pos.x)) + (e->pos.z - (pos.z)) * (e->pos.z - (pos.z)) < n;
+	bool h2 = (e->pos.x - (pos.x + size)) * (e->pos.x - (pos.x + size)) + (e->pos.z - (pos.z)) * (e->pos.z - (pos.z)) < n;
+	bool h3 = (e->pos.x - (pos.x)) * (e->pos.x - (pos.x)) + (e->pos.z - (pos.z + size)) * (e->pos.z - (pos.z + size)) < n;
+	bool h4 = (e->pos.x - (pos.x + size)) * (e->pos.x - (pos.x + size)) +
+		(e->pos.z - (pos.z + size)) * (e->pos.z - (pos.z + size)) < n;
 
-	if(x1 && x2 && z1 && z2) {
-		//Completly in range, return this QuadTree
+	//Completely in range, add all entities
+	if(h1 && h2 && h3 && h4) {
 		add_entites(res);
 		return;
 	}
-	if((x1 || x2) && (z1 || z2)) {
-		// atleast part of the quadtree is in range
+	//Atleast part of the quadtree is in range, check all children
+	if(h1 || h2 || h3 || h4) {
+	//if((x1 || x2) && (z1 || z2)) {
+		if(entity != nullptr) {
+			add_entites(res);
+			return;
+		}
+		for(int i = 0; i < 4; ++i) {
+			if(children[i] != nullptr) {
+				children[i]->add_entities_in_range(e, dist, res);
+			}
+		}
+	}
+	//The Quad encapsulates the range fully, add entity ~or~ check all children
+	if(e->pos.x > pos.x &&
+		e->pos.x <= pos.x + size &&
+		e->pos.z > pos.z &&
+		e->pos.z <= pos.z + size) {
 		if(entity != nullptr) {
 			add_entites(res);
 			return;
@@ -88,6 +100,7 @@ void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*
 }
 
 void QuadTree::add_entites(std::vector<Entity*> & res){
+	draw_p();
 	if(entity != nullptr) {
 		res.push_back(entity);
 		return;
@@ -192,13 +205,28 @@ bool QuadTree::insert(Entity * e) {
 void QuadTree::draw() {
 	glPushMatrix();
 	glLoadIdentity();
-	draw_t();
+	draw_r();
 	glPopMatrix();
 }
 
-void QuadTree::draw_t() {
+void QuadTree::draw_p() {
+	float y = 1.0;
+	glPushMatrix();
+	glLoadIdentity();
+	glColor3f(1.0, 0.0, 1.0);
+	glBegin(GL_LINE_LOOP);
+	{
+		glVertex3f(pos.x, y, pos.z);
+		glVertex3f(pos.x + size, y, pos.z);
+		glVertex3f(pos.x + size, y, pos.z + size);
+		glVertex3f(pos.x, y, pos.z + size);
+	}
+	glEnd();
+	glPopMatrix();
+}
+
+void QuadTree::draw_r() {
 	float y = 0.0;
-	
 	glColor3f(1.0, 0.0, 0.0);
 	glBegin(GL_LINE_LOOP);
 	{
@@ -219,7 +247,7 @@ void QuadTree::draw_t() {
 	}
 	for(int i = 0; i < 4; i++) {
 		if(children[i] != nullptr) {
-			children[i]->draw_t();
+			children[i]->draw_r();
 		}
 	}
 }

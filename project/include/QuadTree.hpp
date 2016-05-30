@@ -33,5 +33,6 @@ struct QuadTree {
 
 	void draw();
 
-	void draw_t();
+	void draw_p();
+	void draw_r();
 };
