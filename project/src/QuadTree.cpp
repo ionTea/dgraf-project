@@ -14,6 +14,48 @@ QuadTree::QuadTree(float size, sf::Vector3f pos) : size(size), pos(pos) {
 	node_count++;
 }
 
+void QuadTree::clean() {
+	if(entity == nullptr) {
+		// no entity, either has children or removable
+		bool canRemove = true;
+		for(size_t i = 0; i < 4; i++) {
+			if(children[i] != nullptr) {
+				children[i]->clean();
+				canRemove = false;
+			}
+		}
+		// No entity and no children, dead leaf
+		if(canRemove) {
+			std::cout << "removed node" << std::endl;
+			delete this;
+		}
+	} else {
+		// has entity, test if we can relocate up one level
+		if(parent != nullptr && !hasSiblings()) {
+			// Move entity up and delete the children
+			std::cout << "Moved up entity" << std::endl;
+			parent->entity = entity;
+			for(size_t i = 0; i < 4; i++) {
+				if(parent->children[i] != nullptr) {
+					delete children[i];
+				}
+			}
+			// test if we can continue to move the entity up
+			//parent->clean();
+		}
+	}
+}
+
+bool QuadTree::hasSiblings() {
+	for(size_t i = 0; i < 4; i++) {
+		if(parent->children[i] != nullptr && parent->children[i] != this)
+			return true;
+	}
+	return false;
+}
+
+
+
 //bool QuadTree::clean() {
 //	if(entity != nullptr) {
 //		return false;

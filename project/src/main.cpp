@@ -9,6 +9,9 @@
 #include "QuadTree.hpp"
 #include "Util.hpp"
 
+
+float update_rate = 10;
+
 int main() {
 	Entity::root_node = new QuadTree(5000.0, sf::Vector3f(-5000.0 / 2, 0.0, -5000.0 / 2));
 
@@ -53,8 +56,8 @@ int main() {
 	big_boid.c2 = sf::Color(0, 255, 0);
 
 	boids.push_back(&big_boid);
-	for (int i = -250; i < 250; i += 3) {
-		for (int j = -250; j < 250; j += 3) {
+	for (int i = -25; i < 10; i += 3) {
+		for (int j = -25; j < 10; j += 3) {
 			boids.push_back(new Boid(sf::Vector3f(i, 0.0, j)));
 			boids.back()->size = 5.0;
 		}
@@ -107,6 +110,12 @@ int main() {
 		//Update stuff
 		camera.update(frame_time);
 		for (auto & b : boids) b->update(frame_time);
+		update_rate -= frame_time;
+		if(update_rate < 0) {
+			update_rate = 10;
+			std::cout << "Clean started: " << std::endl;
+			Entity::root_node->clean();
+		}
 
 		//Draw stuff
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -115,24 +124,24 @@ int main() {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 
-		//for (auto & b : boids) b->draw();
-		//Entity::root_node->draw();
-		float radius = 30.0;
-		auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
-		draw_circle(big_boid.pos, radius);
+		for (auto & b : boids) b->draw();
+		Entity::root_node->draw();
+		//float radius = 30.0;
+		//auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
+		//draw_circle(big_boid.pos, radius);
 
-		for(auto * b : neigh) {
-			b->draw();
-			//glColor3f(0.0, 1.0, 0.0);
-			//glBegin(GL_LINE_LOOP);
-			//{
-			//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
-			//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
-			//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
-			//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
-			//}
-			//glEnd();
-		}
+		//for(auto * b : neigh) {
+		//	b->draw();
+		//	//glColor3f(0.0, 1.0, 0.0);
+		//	//glBegin(GL_LINE_LOOP);
+		//	//{
+		//	//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
+		//	//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
+		//	//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
+		//	//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
+		//	//}
+		//	//glEnd();
+		//}
 
 		//window.pushGLStates();
 		//Draw other stuff

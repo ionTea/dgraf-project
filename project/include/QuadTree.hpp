@@ -30,6 +30,8 @@ struct QuadTree {
 	std::vector<Entity *> get_neighbors(Entity * e, float dist);
 	void add_entities_in_range(Entity * e, float dist, std::vector<Entity*> & res);
 	void add_entites(std::vector<Entity*> & res);
+	void clean();
+	bool hasSiblings();
 
 	void draw();
 
