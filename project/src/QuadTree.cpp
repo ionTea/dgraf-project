@@ -3,7 +3,7 @@
 
 int QuadTree::node_count = 0;
 
-QuadTree::QuadTree(float size, sf::Vector3f pos) : size(size), pos(pos) {
+QuadTree::QuadTree(float size, sf::Vector3f pos) : size(size), pos(pos), removable(false) {
 	entity = nullptr;
 	parent = nullptr;
 	children[0] = nullptr;
@@ -14,69 +14,49 @@ QuadTree::QuadTree(float size, sf::Vector3f pos) : size(size), pos(pos) {
 	node_count++;
 }
 
-void QuadTree::clean() {
-	if(entity == nullptr) {
-		// no entity, either has children or removable
-		bool canRemove = true;
-		for(size_t i = 0; i < 4; i++) {
-			if(children[i] != nullptr) {
-				children[i]->clean();
-				canRemove = false;
-			}
+//Quad calling this must be a leaf node without children and without an entity
+//Set it as removable
+//Set all its parents without children to removable
+void QuadTree::remove() {
+	QuadTree * current_node = this;
+	//If current node has no children
+	while(!current_node->has_child()) {
+		//And is not root
+		if(current_node->parent != nullptr) {
+			//Mark as removable
+			current_node->removable = true;
+			//Go to parent
+			current_node = current_node->parent;
+			//And remove it
+			current_node->remove_children();
+		} else {
+			//Is root
+			break;
 		}
-		// No entity and no children, dead leaf
-		if(canRemove) {
-			std::cout << "removed node" << std::endl;
-			delete this;
-		}
-	} else {
-		// has entity, test if we can relocate up one level
-		if(parent != nullptr && !hasSiblings()) {
-			// Move entity up and delete the children
-			std::cout << "Moved up entity" << std::endl;
-			parent->entity = entity;
-			for(size_t i = 0; i < 4; i++) {
-				if(parent->children[i] != nullptr) {
-					delete children[i];
-				}
-			}
-			// test if we can continue to move the entity up
-			//parent->clean();
+	}
+	//If has children, remove all removable children
+	current_node->remove_children();
+}
+
+//Remove all children marked as removable
+void QuadTree::remove_children() {
+	for(size_t i = 0; i < 4; i++) {
+		if(children[i] != nullptr && children[i]->removable) {
+			delete children[i];
+			children[i] = nullptr;
 		}
 	}
 }
 
-bool QuadTree::hasSiblings() {
+//Returns true if has atleast one child
+bool QuadTree::has_child() {
 	for(size_t i = 0; i < 4; i++) {
-		if(parent->children[i] != nullptr && parent->children[i] != this)
+		if(children[i] != nullptr) {
 			return true;
+		}
 	}
 	return false;
 }
-
-
-
-//bool QuadTree::clean() {
-//	if(entity != nullptr) {
-//		return false;
-//	}
-//	bool deletable = true;
-//	for(int i = 0; i < 4; i++) {
-//		if(children[i] != nullptr) {
-//			if(children[i]->clean()) {
-//				delete children[i];
-//				children[i] = nullptr;
-//			} else {
-//				deletable = false;
-//			}
-//		}
-//	}
-//	return deletable;
-//}
-//
-//QuadTree::~QuadTree() {
-//}
-
 
 std::vector<Entity *> QuadTree::get_neighbors(Entity * e, float dist) {
 	// TODO, start search at node?
@@ -214,8 +194,12 @@ bool QuadTree::update_entity(Entity * e) {
 		if(current_node->parent != nullptr) {
 			current_node = current_node->parent;
 		} else {
+			old_node->remove();
 			return false;
 		}
+	}
+	if(current_node != old_node) {
+		old_node->remove();
 	}
 	return true;
 }
@@ -248,6 +232,31 @@ int QuadTree::in_quad(sf::Vector3f const & p) {
 	return 0;
 }
 
+//TODO make more beautiful
+void QuadTree::subdivide(int i) {
+	if(i == 0) {
+		if(children[0] == nullptr) {
+			children[0] = new QuadTree(size / 2, sf::Vector3f(pos.x, 0.0, pos.z));
+			children[0]->parent = this;
+		}
+	} else if(i == 1) {
+		if(children[1] == nullptr) {
+			children[1] = new QuadTree(size / 2, sf::Vector3f(pos.x + size / 2, 0.0, pos.z));
+			children[1]->parent = this;
+		}
+	} else if(i == 2) {
+		if(children[2] == nullptr) {
+			children[2] = new QuadTree(size / 2, sf::Vector3f(pos.x, 0.0, pos.z + size / 2));
+			children[2]->parent = this;
+		}
+	} else if(i == 3) {
+		if(children[3] == nullptr) {
+			children[3] = new QuadTree(size / 2, sf::Vector3f(pos.x + size / 2, 0.0, pos.z + size / 2));
+			children[3]->parent = this;
+		}
+	}
+}
+
 void QuadTree::subdivide() {
 	if (children[0] == nullptr) {
 		children[0] = new QuadTree(size / 2, sf::Vector3f(pos.x, 0.0, pos.z));
@@ -272,33 +281,28 @@ bool QuadTree::insert(Entity * e) {
 		if(entity == e) {
 			return true;
 		}
-		if(entity == nullptr && missing_child()) {
-			entity = e;
-			e->node = this;
-			return true;
-		}
-		if(entity == nullptr && !missing_child()) {
-			return children[in_quad(e->pos) - 1]->insert(e);
+		if(entity == nullptr) {
+			//Has no children
+			if(!has_child()) {
+				entity = e;
+				e->node = this;
+				return true;
+			} else {
+				subdivide(in_quad(e->pos) - 1);
+				return children[in_quad(e->pos) - 1]->insert(e);
+			}
 		}
 		Entity * tmp = entity;
 		entity = nullptr;
-		subdivide();
+		subdivide(in_quad(e->pos) - 1);
 		if(!children[in_quad(e->pos) - 1]->insert(e)) {
 			//TODO should never happen
 		}
+		subdivide(in_quad(tmp->pos) - 1);
 		if(!children[in_quad(tmp->pos) - 1]->insert(tmp)) {
 			//TODO should never happen
 		}
 		return true;
-	}
-	return false;
-}
-
-// Returns true if at least one child is null
-bool QuadTree::missing_child() {
-	for(size_t i = 0; i < 4; i++) {
-		if(children[i] == nullptr)
-			return true;
 	}
 	return false;
 }
@@ -353,3 +357,64 @@ void QuadTree::draw_r() {
 		}
 	}
 }
+
+//void QuadTree::clean() {
+//	if(entity == nullptr) {
+//		// no entity, either has children or removable
+//		bool canRemove = true;
+//		for(size_t i = 0; i < 4; i++) {
+//			if(children[i] != nullptr) {
+//				children[i]->clean();
+//				canRemove = false;
+//			}
+//		}
+//		// No entity and no children, dead leaf
+//		if(canRemove) {
+//			std::cout << "removed node" << std::endl;
+//			delete this;
+//		}
+//	} else {
+//		// has entity, test if we can relocate up one level
+//		if(parent != nullptr && !hasSiblings()) {
+//			// Move entity up and delete the children
+//			std::cout << "Moved up entity" << std::endl;
+//			parent->entity = entity;
+//			for(size_t i = 0; i < 4; i++) {
+//				if(parent->children[i] != nullptr) {
+//					delete children[i];
+//				}
+//			}
+//			// test if we can continue to move the entity up
+//			//parent->clean();
+//		}
+//	}
+//}
+
+//bool QuadTree::hasSiblings() {
+//	if(parent != nullptr) {
+//		for(size_t i = 0; i < 4; i++) {
+//			if(parent->children[i] != nullptr && parent->children[i] != this)
+//				return true;
+//		}
+//		return false;
+//	}
+//	return true;
+//}
+
+//bool QuadTree::clean() {
+//	if(entity != nullptr) {
+//		return false;
+//	}
+//	bool deletable = true;
+//	for(int i = 0; i < 4; i++) {
+//		if(children[i] != nullptr) {
+//			if(children[i]->clean()) {
+//				delete children[i];
+//				children[i] = nullptr;
+//			} else {
+//				deletable = false;
+//			}
+//		}
+//	}
+//	return deletable;
+//}
