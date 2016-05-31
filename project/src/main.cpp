@@ -53,13 +53,13 @@ int main() {
 	big_boid.c2 = sf::Color(0, 255, 0);
 
 	boids.push_back(&big_boid);
-	for (int i = -250; i < 250; i += 10) {
-		for (int j = -250; j < 250; j += 10) {
+	for (int i = -250; i < 250; i += 3) {
+		for (int j = -250; j < 250; j += 3) {
 			boids.push_back(new Boid(sf::Vector3f(i, 0.0, j)));
 			boids.back()->size = 5.0;
 		}
 	}
-
+	std::cout << boids.size() << std::endl;
 	sf::Clock frame_clock;
 	float frame_time = 0.0;
 	while (window.isOpen()) {

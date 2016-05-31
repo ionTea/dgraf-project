@@ -2,6 +2,8 @@
 #include "SFML\Graphics.hpp"
 #include <iostream>
 #include <string>
+#include <Windows.h>
+#include <gl\GL.h>
 
 float getLength(sf::Vector3f const & v) {
 	return sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
