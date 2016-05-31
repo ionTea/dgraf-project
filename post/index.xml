@@ -6,8 +6,50 @@
     <description>Recent content in Posts on Biods project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 30 May 2016 13:15:34 +0200</lastBuildDate>
+    <lastBuildDate>Tue, 31 May 2016 17:07:13 +0200</lastBuildDate>
     <atom:link href="http://iontea.github.io/dgraf-project/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Quadtree proximity</title>
+      <link>http://iontea.github.io/dgraf-project/post/Quadtree-proximity/</link>
+      <pubDate>Tue, 31 May 2016 17:07:13 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/Quadtree-proximity/</guid>
+      <description>
+
+&lt;p&gt;Hello again!&lt;/p&gt;
+
+&lt;p&gt;Last time we had a working(ish) Quadtree, and now we have implemented
+a way to search a given distance from a Boid and find all neighboring
+Boids. This is done by searching the Quadtree from the position of the
+Boid, until you find all other Quadtree nodes that are within the distance.
+From these nodes we have an area to look for other Boids.&lt;/p&gt;
+
+&lt;h3 id=&#34;this-is-how-it-looked-at-first:626908ea8a8c83d842cf6ecd5d94294b&#34;&gt;This is how it looked at first&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/square-bad.png&#34; alt=&#34;Nodes intersecting distance, wrong&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As you surly can deduce, this isn&amp;rsquo;t quite right. We were a bit of in our
+reasoning when deciding which nodes are in proximity. We had decided to only
+look at the edges of the nodes, since it would be fast to calculate. As you can
+see the area found was a lot larger then necessary, if we look at a circular
+area instead we can avoid looking at large areas, as illustrated bellow.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/geohash-query.png&#34; alt=&#34;Circular proximity tree-nodes&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;some-adjustments-later:626908ea8a8c83d842cf6ecd5d94294b&#34;&gt;Some adjustments later&lt;/h3&gt;
+
+&lt;p&gt;After this adjustment, and some headache trying to figure out how to calculate
+the circle intersection with nodes, we had this.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/circle-fine.png&#34; alt=&#34;Nodes intersecting distance&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Just as a test we added a bonkers amount of Boids, but only rendered the ones
+within the radius, and we were able to have like 250000 Boids at the same
+time without too much lag. It shows how effective a Quadtree can be for performance
+amplification.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Quad tree working (ish)</title>
