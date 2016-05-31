@@ -27,6 +27,7 @@ struct QuadTree {
 	int in_quad(sf::Vector3f const & p);
 	void subdivide();
 	bool insert(Entity * e);
+	bool missing_child();
 	std::vector<Entity *> get_neighbors(Entity * e, float dist);
 	void add_entities_in_range(Entity * e, float dist, std::vector<Entity*> & res);
 	void add_entites(std::vector<Entity*> & res);

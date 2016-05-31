@@ -272,12 +272,12 @@ bool QuadTree::insert(Entity * e) {
 		if(entity == e) {
 			return true;
 		}
-		if(entity == nullptr && children[0] == nullptr) {
+		if(entity == nullptr && missing_child()) {
 			entity = e;
 			e->node = this;
 			return true;
 		}
-		if(entity == nullptr && children[0] != nullptr) {
+		if(entity == nullptr && !missing_child()) {
 			return children[in_quad(e->pos) - 1]->insert(e);
 		}
 		Entity * tmp = entity;
@@ -290,6 +290,15 @@ bool QuadTree::insert(Entity * e) {
 			//TODO should never happen
 		}
 		return true;
+	}
+	return false;
+}
+
+// Returns true if at least one child is null
+bool QuadTree::missing_child() {
+	for(size_t i = 0; i < 4; i++) {
+		if(children[i] == nullptr)
+			return true;
 	}
 	return false;
 }
