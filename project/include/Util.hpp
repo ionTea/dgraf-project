@@ -2,8 +2,6 @@
 #include "SFML\Graphics.hpp"
 #include <iostream>
 #include <string>
-#include <Windows.h>
-#include <gl\GL.h>
 
 float getLength(sf::Vector3f const & v) {
 	return sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
@@ -28,23 +26,4 @@ void p(float f) {
 
 void p(int i) {
 	std::cout << i << std::endl;
-}
-
-void draw_circle(sf::Vector3f pos, float radius) {
-	glPushMatrix();
-	glLoadIdentity();
-	glColor3f(0.0, 1.0, 0.0);
-	glTranslatef(pos.x, pos.y, pos.z);
-	for(int i = 0; i < 360; i++) {
-		glRotatef(i, 0, 1, 0);
-		glTranslatef(radius, 0, 0);
-		glBegin(GL_POINTS);
-		{
-			glVertex3f(0, 0, 0);
-		}
-		glEnd();
-		glTranslatef(-radius, 0, 0);
-		glRotatef(-i, 0, 1, 0);
-	}
-	glPopMatrix();
 }

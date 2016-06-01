@@ -1,15 +1,14 @@
-#include <Windows.h>
-#include <gl\GL.h>
 #include <SFML\Graphics.hpp>
+#include <SFML\OpenGL.hpp>
 #include <iostream>
 #include <vector>
+
 #include "Entity\Camera.hpp"
 #include "Entity\Boid.hpp"
 #include "Entity\Cube.hpp"
 #include "QuadTree.hpp"
 #include "Util.hpp"
-
-
+#include "DrawPrimitives.hpp"
 
 int main() {
 	Entity::root_node = new QuadTree(5000.0, sf::Vector3f(-5000.0 / 2, 0.0, -5000.0 / 2));
@@ -119,22 +118,40 @@ int main() {
 		glLoadIdentity();
 
 		for (auto & b : boids) b->draw();
-		Entity::root_node->draw();
-		//float radius = 30.0;
-		//auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
-		//draw_circle(big_boid.pos, radius);
+		//Entity::root_node->draw();
+		float radius = 30.0;
+		auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
+		draw_circle(big_boid.pos, radius);
 
-		//for(auto * b : neigh) {
-		//	b->draw();
-		//	//glColor3f(0.0, 1.0, 0.0);
-		//	//glBegin(GL_LINE_LOOP);
-		//	//{
-		//	//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
-		//	//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
-		//	//	glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
-		//	//	glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
-		//	//}
-		//	//glEnd();
+		for(auto * b : neigh) {
+			//b->draw();
+			glColor3f(0.0, 1.0, 0.0);
+			glBegin(GL_LINE_LOOP);
+			{
+				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
+				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
+				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
+				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
+			}
+			glEnd();
+		}
+
+		//for(auto & b : boids) {
+		//	auto s = b->node->get_neighbors(b, radius);
+		//	draw_circle(b->pos, radius);
+
+		//	for(auto * b2 : s) {
+		//		//b->draw();
+		//		glColor3f(0.0, 1.0, 0.0);
+		//		glBegin(GL_LINE_LOOP);
+		//		{
+		//			glVertex3f(b2->pos.x - 2.0, 0.0, b2->pos.z - 2.0);
+		//			glVertex3f(b2->pos.x + 2.0, 0.0, b2->pos.z - 2.0);
+		//			glVertex3f(b2->pos.x + 2.0, 0.0, b2->pos.z + 2.0);
+		//			glVertex3f(b2->pos.x - 2.0, 0.0, b2->pos.z + 2.0);
+		//		}
+		//		glEnd();
+		//	}
 		//}
 
 		//window.pushGLStates();

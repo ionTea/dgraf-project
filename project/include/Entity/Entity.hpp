@@ -1,8 +1,7 @@
 #pragma once
 #include "SFML\Graphics.hpp"
 #include "QuadTree.hpp"
-#include <Windows.h>
-#include <gl\GL.h>
+#include <SFML\OpenGL.hpp>
 
 struct QuadTree;
 

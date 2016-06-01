@@ -333,7 +333,7 @@ void QuadTree::draw_p() {
 
 void QuadTree::draw_r() {
 	float y = 0.0;
-	glColor3f(1.0, 0.0, 0.0);
+	glColor3f(0.3, 0.0, 0.0);
 	glBegin(GL_LINE_LOOP);
 	{
 		glVertex3f(pos.x, y, pos.z);
@@ -342,15 +342,15 @@ void QuadTree::draw_r() {
 		glVertex3f(pos.x, y, pos.z + size);
 	}
 	glEnd();
-	if(entity != nullptr) {
-		glColor3f(0.0, 1.0, 1.0);
-		glBegin(GL_LINES);
-		{
-			glVertex3f(pos.x + size/2, 0.0, pos.z + size/2);
-			glVertex3f(entity->pos.x, 0.0, entity->pos.z);
-		}
-		glEnd();
-	}
+	//if(entity != nullptr) {
+	//	glColor3f(0.0, 1.0, 1.0);
+	//	glBegin(GL_LINES);
+	//	{
+	//		glVertex3f(pos.x + size/2, 0.0, pos.z + size/2);
+	//		glVertex3f(entity->pos.x, 0.0, entity->pos.z);
+	//	}
+	//	glEnd();
+	//}
 	for(int i = 0; i < 4; i++) {
 		if(children[i] != nullptr) {
 			children[i]->draw_r();
