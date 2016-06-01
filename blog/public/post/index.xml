@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Biods project</title>
+    <title>Posts on Boids project</title>
     <link>http://iontea.github.io/dgraf-project/post/</link>
-    <description>Recent content in Posts on Biods project</description>
+    <description>Recent content in Posts on Boids project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 01 Jun 2016 10:37:18 +0200</lastBuildDate>
@@ -22,13 +22,25 @@
 &lt;p&gt;Our quadtree is fully operational. The tree updates the nodes on the fly, and adapts to the movement of the boids.
 A demonstration can be seen by pressing the beak bellow.&lt;/p&gt;
 
-&lt;p&gt;&lt;a href=&#34;https://youtu.be/Y1zuuNbmelA&#34; title=&#34;Everything Is AWESOME&#34;&gt;&lt;img src=&#34;http://img.youtube.com/vi/Y1zuuNbmelA/0.jpg&#34; alt=&#34;Awesome youtube demonstration&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/Y1zuuNbmelA&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
 
-&lt;h3 id=&#34;current-todos:360d8edd5274fe9e75b48456bb9db3de&#34;&gt;Current TODOs&lt;/h3&gt;
+&lt;br&gt;
+The following picture shows which boids are found by our quadtree search. The search finds all boids which resides inside a quad that intersects the circle. After finding these &lt;strong&gt;potential&lt;/strong&gt; close boids, we can check if they are actually inside the desired search range.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/quadtree-search-1.PNG&#34; alt=&#34;Quadtree search&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;A more clear visualisation of what the search considers.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://iontea.github.io/dgraf-project/img/geohash-query.png&#34; alt=&#34;Clear visualisation&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;current-todo-list:360d8edd5274fe9e75b48456bb9db3de&#34;&gt;Current TODO list&lt;/h3&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Implementing the behaviour of our Boids.&lt;/li&gt;
-&lt;li&gt;Implement a &amp;ldquo;find n closest neighbors&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Implement a &amp;ldquo;find n closest neighbors&amp;rdquo; search.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
     </item>
