@@ -134,7 +134,7 @@ void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*
 
 	////Completely in range, add all entities
 	//if(h1 && h2 && h3 && h4) {
-	//	add_entites(res);
+	//	add_entities(res);
 	//	return;
 	//}
 	//Atleast part of the quadtree is in range, check all children
@@ -144,7 +144,7 @@ void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*
 	if(circle_intersect_rect(e->pos, dist, pos, size)) {
 
 		if(entity != nullptr) {
-			add_entites(res);
+			add_entities(res, e);
 			return;
 		}
 		for(int i = 0; i < 4; ++i) {
@@ -160,7 +160,7 @@ void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*
 	//	e->pos.z > pos.z &&
 	//	e->pos.z <= pos.z + size) {
 	//	if(entity != nullptr) {
-	//		add_entites(res);
+	//		add_entities(res);
 	//		return;
 	//	}
 	//	for(int i = 0; i < 4; ++i) {
@@ -171,15 +171,18 @@ void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*
 	//}
 }
 
-void QuadTree::add_entites(std::vector<Entity*> & res){
+void QuadTree::add_entities(std::vector<Entity*> & res, Entity * excluded_entity){
 	draw_p();
 	if(entity != nullptr) {
+		if(entity == excluded_entity) {
+			return;
+		}
 		res.push_back(entity);
 		return;
 	}
 	for(size_t i = 0; i < 4; i++) {
 		if(children[i] != nullptr) {
-			children[i]->add_entites(res);
+			children[i]->add_entities(res, excluded_entity);
 		}
 	}
 	return;
