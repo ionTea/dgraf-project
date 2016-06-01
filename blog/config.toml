@@ -1,4 +1,4 @@
 baseurl = "http://iontea.github.io/dgraf-project/"
 languageCode = "en-us"
-title = "Biods project"
+title = "Boids project"
 canonifyurls = true
