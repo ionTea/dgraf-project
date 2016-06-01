@@ -58,10 +58,9 @@ bool QuadTree::has_child() {
 	return false;
 }
 
-std::vector<Entity *> QuadTree::get_neighbors(Entity * e, float dist) {
+void QuadTree::get_neighbors(Entity * e, float dist, std::vector<Entity*> & result) {
 	// TODO, start search at node?
 	QuadTree * current_node = e->node;
-	std::vector<Entity*> result;
 	while(!((e->pos.x + dist <= current_node->pos.x + current_node->size) &&  // right
 		(e->pos.x - dist > current_node->pos.x) &&							  // left
 		(e->pos.z + dist <= current_node->pos.z + current_node->size) &&	  // top
@@ -74,7 +73,7 @@ std::vector<Entity *> QuadTree::get_neighbors(Entity * e, float dist) {
 		}
 	}
 	current_node->add_entities_in_range(e, dist, result);
-	return result;
+	return;
 }
 
 

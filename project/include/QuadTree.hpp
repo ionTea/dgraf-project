@@ -29,13 +29,14 @@ struct QuadTree {
 	void subdivide();
 
 	bool insert(Entity * e);
-	std::vector<Entity *> get_neighbors(Entity * e, float dist);
 	void add_entities_in_range(Entity * e, float dist, std::vector<Entity*> & res);
 	void add_entities(std::vector<Entity*> & res, Entity * excluded_entity = nullptr);
 
 	void remove();
 	void remove_children();
 	bool has_child();
+
+	void get_neighbors(Entity * e, float dist, std::vector<Entity*>& result);
 
 	void draw();
 	void draw_p();

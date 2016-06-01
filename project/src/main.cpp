@@ -120,21 +120,21 @@ int main() {
 		for (auto & b : boids) b->draw();
 		//Entity::root_node->draw();
 		float radius = 30.0;
-		auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
-		draw_circle(big_boid.pos, radius);
+		//auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
+		//draw_circle(big_boid.pos, radius);
 
-		for(auto * b : neigh) {
-			//b->draw();
-			glColor3f(0.0, 1.0, 0.0);
-			glBegin(GL_LINE_LOOP);
-			{
-				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
-				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
-				glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
-				glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
-			}
-			glEnd();
-		}
+		//for(auto * b : neigh) {
+		//	//b->draw();
+		//	glColor3f(0.0, 1.0, 0.0);
+		//	glBegin(GL_LINE_LOOP);
+		//	{
+		//		glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
+		//		glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
+		//		glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
+		//		glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
+		//	}
+		//	glEnd();
+		//}
 
 		//for(auto & b : boids) {
 		//	auto s = b->node->get_neighbors(b, radius);

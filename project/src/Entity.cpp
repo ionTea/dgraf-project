@@ -15,6 +15,12 @@ void Entity::update(float elapsed_time) {
 
 void Entity::draw() {}
 
+void Entity::update_position(float elapsed_time) {
+	pos.x += vel.x * elapsed_time;
+	pos.y += vel.y * elapsed_time;
+	pos.z += vel.z * elapsed_time;
+}
+
 void Entity::update_directions() {
 	//Calculate and get direction with opengl
 	glMatrixMode(GL_PROJECTION);

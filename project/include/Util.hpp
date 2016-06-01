@@ -3,12 +3,24 @@
 #include <iostream>
 #include <string>
 
-float getLength(sf::Vector3f const & v) {
+float get_length(sf::Vector3f const & v) {
 	return sqrt(v.x*v.x + v.y*v.y + v.z*v.z);
 }
 
-sf::Vector3f setLength(sf::Vector3f v, float length) {
-	float l = getLength(v);
+float get_length_sqared(sf::Vector3f const & v) {
+	return (v.x*v.x + v.y*v.y + v.z*v.z);
+}
+
+float dot_product(sf::Vector3f const & v, sf::Vector3f const & u) {
+	return v.x * u.x + v.y * u.y + v.z * u.z;
+}
+
+float angle(sf::Vector3f const & v, sf::Vector3f const & u) {
+	return acos((dot_product(v, u)) / (get_length(v) * get_length(u)));
+
+}
+sf::Vector3f set_length(sf::Vector3f v, float length) {
+	float l = get_length(v);
 	return sf::Vector3f(length * v.x / l, length * v.y / l, length * v.z / l);
 }
 

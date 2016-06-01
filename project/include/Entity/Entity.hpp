@@ -16,5 +16,6 @@ struct Entity {
 	Entity(sf::Vector3f pos = sf::Vector3f(0.0, 0.0, 0.0), sf::Vector3f vel = sf::Vector3f(0.0, 0.0, 0.0));
 	virtual void update(float elapsed_time);
 	virtual void draw();
+	virtual void update_position(float elapsed_time);
 	void update_directions();
 };
