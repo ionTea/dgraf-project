@@ -6,8 +6,32 @@
     <description>Recent content on Biods project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 31 May 2016 17:07:13 +0200</lastBuildDate>
+    <lastBuildDate>Wed, 01 Jun 2016 10:37:18 +0200</lastBuildDate>
     <atom:link href="http://iontea.github.io/dgraf-project/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Eureka!</title>
+      <link>http://iontea.github.io/dgraf-project/post/working-quadtree/</link>
+      <pubDate>Wed, 01 Jun 2016 10:37:18 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/working-quadtree/</guid>
+      <description>
+
+&lt;h3 id=&#34;today-is-a-good-day:360d8edd5274fe9e75b48456bb9db3de&#34;&gt;Today is a good day&lt;/h3&gt;
+
+&lt;p&gt;Our quadtree is fully operational. The tree updates the nodes on the fly, and adapts to the movement of the boids.
+A demonstration can be seen by pressing the beak bellow.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;https://youtu.be/Y1zuuNbmelA&#34; title=&#34;Everything Is AWESOME&#34;&gt;&lt;img src=&#34;http://img.youtube.com/vi/Y1zuuNbmelA/0.jpg&#34; alt=&#34;Awesome youtube demonstration&#34; /&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;current-todos:360d8edd5274fe9e75b48456bb9db3de&#34;&gt;Current TODOs&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Implementing the behaviour of our Boids.&lt;/li&gt;
+&lt;li&gt;Implement a &amp;ldquo;find n closest neighbors&amp;rdquo;.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
     
     <item>
       <title>Quadtree proximity</title>
