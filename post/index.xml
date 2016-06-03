@@ -6,8 +6,39 @@
     <description>Recent content in Posts on Boids project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 Jun 2016 10:37:18 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 02 Jun 2016 14:10:48 +0200</lastBuildDate>
     <atom:link href="http://iontea.github.io/dgraf-project/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>floats</title>
+      <link>http://iontea.github.io/dgraf-project/post/floats/</link>
+      <pubDate>Thu, 02 Jun 2016 14:10:48 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/floats/</guid>
+      <description>
+
+&lt;h3 id=&#34;floats-floats-why-art-though-keff-bad-chaos:741637134d4ba667620ddef67a4d65e7&#34;&gt;Floats, floats, why art though keff ( bad / chaos )&lt;/h3&gt;
+
+&lt;p&gt;Since starting to implement our boids behavior the program has
+showing weird behavior. Sometimes the quadtree insert goes into an infinite
+loop. Sometimes we get read-access violation. Sometimes we get wired null
+references. At first we thought our cleanup of the tree might be wrong.
+Maybe we deleted nodes that were in use? That would explain the read-access
+violation at least, but not all our problems. After some serious debugging
+we noticed something.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt; size = 9.697e-42
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;When we implemented the behavior, we didn&amp;rsquo;t finish with the separation behavior,
+to prevent the boids from being on the same spot. They do however have cohesion,
+so the will move towards each other. So they all ocupied the same space. Mother fu***.&lt;/p&gt;
+
+&lt;p&gt;This might cause our floating precision to be off, since floats are &lt;strong&gt;really&lt;/strong&gt; bad
+at comparisons. So when the areas are that small we are unable to decide where to
+place a boid in the tree, leading to unpredictable behavior.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Eureka!</title>
