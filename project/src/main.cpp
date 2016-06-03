@@ -16,7 +16,7 @@ int main() {
 	//Create window
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
-	sf::RenderWindow window(sf::VideoMode(800, 500, 32), "Snoids?", sf::Style::Default, settings);
+	sf::RenderWindow window(sf::VideoMode(1800, 1500, 32), "Snoids?", sf::Style::Default, settings);
 	window.setFramerateLimit(150);
 	sf::Vector2f center((static_cast<float>(window.getSize().x) / 2.0f), (static_cast<float>(window.getSize().y) / 2.0f));
 	sf::Vector2f size((static_cast<float>(window.getSize().x)), (static_cast<float>(window.getSize().y)));
@@ -49,7 +49,7 @@ int main() {
 	
 	//Create some boids
 	std::vector<Boid*> boids;
-	Boid big_boid(sf::Vector3f(0,0,0));
+	Boid big_boid(sf::Vector3f(0,0,0), true);
 	big_boid.size = 20.0;
 	big_boid.c1 = sf::Color(100, 255, 100);
 	big_boid.c2 = sf::Color(0, 255, 0);
@@ -102,6 +102,14 @@ int main() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) camera.moveY(150);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) camera.moveY(150);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) camera.moveY(-150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) big_boid.pos.x += 1;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) big_boid.pos.x -= 1;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) big_boid.pos.z += 1;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) big_boid.pos.z -= 1;
+
+		Boid::TARGET = big_boid.pos;
+
+
 
 		frame_time = frame_clock.getElapsedTime().asSeconds();
 		frame_clock.restart();

@@ -8,9 +8,14 @@ struct Boid : public Entity {
 	float MAX_SPEED = 62.0;
 	float ROT_SPEED_MAX = 360.0;
 	float N_DISTANCE = 20.0;
+	bool main;
+	static sf::Vector3f TARGET;
 	static float COHESION_BIAS;
 	static float SEPERATION_BIAS;
+	static float ALIGNMENT_BIAS;
 	static float SEPERATION_DISTANCE;
+	static float TARGET_BIAS;
+
 
 
 
@@ -21,8 +26,9 @@ struct Boid : public Entity {
 	sf::Color c2;
 	sf::Clock internal_clock;
 
-	Boid(sf::Vector3f pos = sf::Vector3f(0.0, 20.0, 0.0)) : Entity(pos),
-		size(1.0), rot_speed(5.0), behaviour_time(2.0), c1(255, 0, 0), c2(255, 255, 0), neighbors(10) {
+	Boid(sf::Vector3f pos = sf::Vector3f(0.0, 20.0, 0.0), bool m = false) : Entity(pos),
+		size(1.0), rot_speed(5.0), behaviour_time(2.0), c1(255, 0, 0), 
+		c2(255, 255, 0), neighbors(10), main(m) {
 		rot.x = rand() % 360;
 		rot_speed = 1360;
 		update_directions();
@@ -31,10 +37,7 @@ struct Boid : public Entity {
 	}
 
 	virtual void update_position(float elapsed_time) {
-		rot.x += rot_speed * elapsed_time;
-
-		update_directions();
-		vel = set_length(direction, MAX_SPEED);
+		
 
 		pos.x += vel.x * elapsed_time;
 		pos.y += vel.y * elapsed_time;
@@ -56,7 +59,7 @@ struct Boid : public Entity {
 		}
 	}
 
-	float separation_rot() {
+	sf::Vector3f separation() {
 		sf::Vector3f c(0.0, 0.0, 0.0);
 
 		for(Entity * e : neighbors) {
@@ -65,16 +68,18 @@ struct Boid : public Entity {
 			}
 		}
 
-		c = (c - pos);
-		// find angle
-		return angle(c, direction) * SEPERATION_BIAS;
+		return -c * SEPERATION_BIAS;
 	}
 	
-	float alignment_rot() {
-		return 0;
+	sf::Vector3f alignment() {
+		sf::Vector3f v(0.0, 0.0, 0.0);
+		for(Entity * e : neighbors) {
+			v = v + e->vel;
+		}
+		return v * ALIGNMENT_BIAS;
 	}
 	
-	float cohesion_rot() {
+	sf::Vector3f cohesion() {
 		sf::Vector3f center(0.0,0.0,0.0);
 		for(Entity * e : neighbors) {
 			center += e->pos;
@@ -83,25 +88,39 @@ struct Boid : public Entity {
 		center.y = center.y / (neighbors.size());
 		center.z = center.z / (neighbors.size());
 
-		center = (center - pos);
-		// find angle
-		return angle(center, direction) * COHESION_BIAS;
+		return (center - pos) * COHESION_BIAS;
+	}
 
+	sf::Vector3f target_location() {
+		return (TARGET - pos) * TARGET_BIAS;
+	}
+	// Limit the speed of the boids
+	// TODO, global limit var
+	void limit_vel() {
+		if(get_length(vel) > 50) {
+			vel = set_length(vel, 50);
+		}
 	}
 
 	virtual void update(float elapsed_time) {
+		if(main) return;
 		neighbors.clear();
 		if(node != nullptr)
 			node->get_neighbors(this, N_DISTANCE, neighbors);
 
 		if(neighbors.size() > 0) {
-			float r1 = separation_rot();
-			float r2 = alignment_rot();
-			float r3 = cohesion_rot();
-			rot_speed = r1 + r2 + r3;
-
+			sf::Vector3f r1 = separation();
+			sf::Vector3f r2 = alignment();
+			sf::Vector3f r3 = cohesion();
+			sf::Vector3f r4 = target_location();
+			vel = vel + r1 + r2 + r3 + r4;
+			limit_vel();
 		} else {
 			random_rot();
+			rot.x += rot_speed * elapsed_time;
+
+			update_directions();
+			vel = set_length(direction, MAX_SPEED);
 		}
 
 		update_position(elapsed_time);
@@ -163,6 +182,9 @@ struct Boid : public Entity {
 		glPopMatrix();
 	}
 };
-float Boid::COHESION_BIAS = 10.0;
-float Boid::SEPERATION_DISTANCE = 30;
-float Boid::SEPERATION_BIAS = 100;
+float Boid::COHESION_BIAS = 0.1;
+float Boid::SEPERATION_DISTANCE = 20;
+float Boid::SEPERATION_BIAS = 1;
+float Boid::ALIGNMENT_BIAS = (1 / 8);
+float Boid::TARGET_BIAS = 0.01;
+sf::Vector3f Boid::TARGET(0.0, 0.0, 0.0);

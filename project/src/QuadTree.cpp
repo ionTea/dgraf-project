@@ -299,12 +299,16 @@ bool QuadTree::insert(Entity * e) {
 		subdivide(in_quad(e->pos) - 1);
 		if(!children[in_quad(e->pos) - 1]->insert(e)) {
 			//TODO should never happen
-			std::cout << "Something is very wrong! " << std::endl;
+			std::cerr << "Something is very wrong! " << std::endl;
+			std::cerr << "size: "  << size << std::endl;
+			std::cerr << "child size: " << children[in_quad(tmp->pos) - 1]->size << std::endl;
 		}
 		subdivide(in_quad(tmp->pos) - 1);
 		if(!children[in_quad(tmp->pos) - 1]->insert(tmp)) {
 			//TODO should never happen
-			std::cout << "Something is very wrong 2! " << std::endl;
+			std::cerr << "Something is very wrong 2! " << std::endl;
+			std::cerr << "size: " << size << std::endl;
+			std::cerr << "child size: " << children[in_quad(tmp->pos) - 1]->size << std::endl;
 		}
 		return true;
 	}
