@@ -191,17 +191,19 @@ void QuadTree::add_entities(std::vector<Entity*> & res, Entity * excluded_entity
 bool QuadTree::update_entity(Entity * e) {
 	QuadTree * old_node = this;
 	QuadTree * current_node = this;
+	old_node->entity = nullptr;
+	e->node = nullptr;
 	while(!current_node->insert(e)) {
-		old_node->entity = nullptr;
+		// insert failes, move one step up
 		if(current_node->parent != nullptr) {
 			current_node = current_node->parent;
 		} else {
-		//	old_node->remove();
+		 old_node->remove();
 			return false;
 		}
 	}
 	if(current_node != old_node) {
-		//old_node->remove();
+		 old_node->remove();
 	}
 	return true;
 }
@@ -280,7 +282,7 @@ void QuadTree::subdivide() {
 
 bool QuadTree::insert(Entity * e) {
 	if(in_node(e->pos)) {
-		if(entity == e) {
+		if(entity == e && e->node == this) {
 			return true;
 		}
 		if(entity == nullptr) {
@@ -297,13 +299,14 @@ bool QuadTree::insert(Entity * e) {
 		Entity * tmp = entity;
 		entity = nullptr;
 		subdivide(in_quad(e->pos) - 1);
+		subdivide(in_quad(tmp->pos) - 1);
+
 		if(!children[in_quad(e->pos) - 1]->insert(e)) {
 			//TODO should never happen
 			std::cerr << "Something is very wrong! " << std::endl;
 			std::cerr << "size: "  << size << std::endl;
 			std::cerr << "child size: " << children[in_quad(tmp->pos) - 1]->size << std::endl;
 		}
-		subdivide(in_quad(tmp->pos) - 1);
 		if(!children[in_quad(tmp->pos) - 1]->insert(tmp)) {
 			//TODO should never happen
 			std::cerr << "Something is very wrong 2! " << std::endl;

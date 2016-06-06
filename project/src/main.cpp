@@ -10,9 +10,27 @@
 #include "Util.hpp"
 #include "DrawPrimitives.hpp"
 
+void sanity_check(std::vector<Boid*> const & boids) {
+	for(auto boid : boids) {
+		// Test if the boid is in the node it should be in. 
+		if(!boid->node->in_node(boid->pos)) {
+			// This should not be able to happen
+			// I test this since my debug showed a boid being
+			// WHAAAAY off
+			std::cout << "SANITY CHECK FAILED: was in wrong node" << std::endl;
+			std::cout << "Boid: " << boid << std::endl;
+
+		}
+		// Also should never be true
+		if(boid->node->parent->children[boid->node->parent->in_quad(boid->pos) - 1] != boid->node) {
+			std::cout << "SANITY CHECK FAILED: in_quad gave wrong " << std::endl;
+			std::cout << "Boid: " << boid << std::endl;
+		}
+	}
+}
+
 int main() {
 	Entity::root_node = new QuadTree(5000.0, sf::Vector3f(-5000.0 / 2, 0.0, -5000.0 / 2));
-
 	//Create window
 	sf::ContextSettings settings;
 	settings.depthBits = 24;
@@ -105,10 +123,10 @@ int main() {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) camera.moveY(150);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) camera.moveY(150);
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) camera.moveY(-150);
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) big_boid.pos.x += 1;
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) big_boid.pos.x -= 1;
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) big_boid.pos.z += 1;
-		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) big_boid.pos.z -= 1;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) big_boid.pos.x += 2;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) big_boid.pos.x -= 2;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) big_boid.pos.z += 2;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) big_boid.pos.z -= 2;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)) display_quadtree = !display_quadtree;
 
 
@@ -178,6 +196,8 @@ int main() {
 		//window.popGLStates();
 
 		window.display();
+		sanity_check(boids);
 	}
 	return 0;
 }
+

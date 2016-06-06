@@ -103,7 +103,10 @@ struct Boid : public Entity {
 	}
 
 	virtual void update(float elapsed_time) {
-		if(main) return;
+		if(main) {
+			node->update_entity(this);
+			return;
+		}
 		neighbors.clear();
 		if(node != nullptr)
 			node->get_neighbors(this, N_DISTANCE, neighbors);
