@@ -196,12 +196,12 @@ bool QuadTree::update_entity(Entity * e) {
 		if(current_node->parent != nullptr) {
 			current_node = current_node->parent;
 		} else {
-			old_node->remove();
+		//	old_node->remove();
 			return false;
 		}
 	}
 	if(current_node != old_node) {
-		old_node->remove();
+		//old_node->remove();
 	}
 	return true;
 }

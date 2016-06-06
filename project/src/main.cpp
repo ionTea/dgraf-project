@@ -33,6 +33,9 @@ int main() {
 	sf::Mouse::setPosition(mouse_center);
 	float mouse_sensitivity = 0.1;
 
+	// toggle to draw the quadtree
+	bool display_quadtree = false;
+
 	//Font and text stuff
 	//sf::Font font;
 	//Mac
@@ -106,6 +109,8 @@ int main() {
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) big_boid.pos.x -= 1;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) big_boid.pos.z += 1;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) big_boid.pos.z -= 1;
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::I)) display_quadtree = !display_quadtree;
+
 
 		Boid::TARGET = big_boid.pos;
 
@@ -126,23 +131,28 @@ int main() {
 		glLoadIdentity();
 
 		for (auto & b : boids) b->draw();
-		//Entity::root_node->draw();
-		float radius = 30.0;
-		//auto neigh = big_boid.node->get_neighbors(&big_boid, radius);
-		//draw_circle(big_boid.pos, radius);
 
-		//for(auto * b : neigh) {
-		//	//b->draw();
-		//	glColor3f(0.0, 1.0, 0.0);
-		//	glBegin(GL_LINE_LOOP);
-		//	{
-		//		glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
-		//		glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
-		//		glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
-		//		glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
-		//	}
-		//	glEnd();
-		//}
+		if(display_quadtree) {
+			float radius = 30.0;
+			Entity::root_node->draw();
+			std::vector<Entity*> neigh;
+			big_boid.node->get_neighbors(&big_boid, radius, neigh);
+			draw_circle(big_boid.pos, radius);
+
+			for(auto * b : neigh) {
+				glColor3f(0.0, 1.0, 0.0);
+				glBegin(GL_LINE_LOOP);
+				{
+					glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z - 2.0);
+					glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z - 2.0);
+					glVertex3f(b->pos.x + 2.0, 0.0, b->pos.z + 2.0);
+					glVertex3f(b->pos.x - 2.0, 0.0, b->pos.z + 2.0);
+				}
+				glEnd();
+			}
+		}
+
+		
 
 		//for(auto & b : boids) {
 		//	auto s = b->node->get_neighbors(b, radius);
