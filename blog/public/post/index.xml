@@ -6,8 +6,105 @@
     <description>Recent content in Posts on Boids project</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 02 Jun 2016 14:10:48 +0200</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jun 2016 13:42:18 +0200</lastBuildDate>
     <atom:link href="http://iontea.github.io/dgraf-project/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Working boids</title>
+      <link>http://iontea.github.io/dgraf-project/post/behaviour/</link>
+      <pubDate>Thu, 09 Jun 2016 13:42:18 +0200</pubDate>
+      
+      <guid>http://iontea.github.io/dgraf-project/post/behaviour/</guid>
+      <description>
+
+&lt;p&gt;We have implemented the behavior of the boids. They follow a simple set of rules, inspired from
+&lt;a href=&#34;http://www.red3d.com/cwr/boids/&#34;&gt;&lt;em&gt;Craig Reynolds&lt;/em&gt;&lt;/a&gt; work in the 80&amp;rsquo;s. The basic rules the boids follow are:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Separation&lt;/strong&gt;: steer to avoid crowding local&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Alignment&lt;/strong&gt;: steer towards the average heading of local flockmates&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Cohesion&lt;/strong&gt;: steer to move toward the average position of local flockmates&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Target&lt;/strong&gt;: steer towords a general target location&lt;/p&gt;
+
+&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+
+&lt;h4 id=&#34;pseudocode-outlining-the-behavior:9824f5c8418f954f8edb936482538bdb&#34;&gt;Pseudocode outlining the behavior&lt;/h4&gt;
+
+&lt;p&gt;Here is pseudocode outlining the behavior mechanism,
+provided by &lt;a href=&#34;http://www.kfish.org/boids/pseudocode.html&#34;&gt;&lt;em&gt;Conrad Parker&lt;/em&gt;&lt;/a&gt;.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Separation(boid bJ)
+
+    Vector c = 0;
+
+    FOR EACH BOID b
+        IF b != bJ THEN
+            IF |b.position - bJ.position| &amp;lt; 100 THEN
+                c = c - (b.position - bJ.position)
+            END IF
+        END IF
+    END
+
+    RETURN c * SEPERATION_BIAS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;Alignment(boid bJ)
+
+    Vector pvJ
+
+    FOR EACH BOID b
+        IF b != bJ THEN
+            pvJ = pvJ + b.velocity
+        END IF
+    END
+
+    pvJ = pvJ / N-1
+
+    RETURN (pvJ - bJ.velocity) * ALIGNMENT_BIAS
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt; Cohesion(boid bJ)
+
+    Vector pcJ
+
+    FOR EACH BOID b
+        IF b != bJ THEN
+            pcJ = pcJ + b.position
+        END IF
+    END
+
+    pcJ = pcJ / N-1
+
+    RETURN (pcJ - bJ.position) * COHESION_BIAS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;Target(Boid b)
+    Vector place
+
+    RETURN (place - b.position) * TARGET_BIAS
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The different bias values we use can be altered to change the way
+the boids group and move together.&lt;/p&gt;
+
+&lt;h3 id=&#34;last-but-lot-least:9824f5c8418f954f8edb936482538bdb&#34;&gt;Last but lot least&lt;/h3&gt;
+
+&lt;p&gt;A video demonstration
+As target we have the big boid, so all other boids will want to move
+towards this boid. Later in the video you can see the underlying Quadtree
+we use, and how it adapts to the boids positions and how the proximity
+algorithm limits the number of potential neighboring boids.&lt;/p&gt;
+
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; padding-top: 30px; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe src=&#34;//www.youtube.com/embed/jSBxFq6pMIE&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%;&#34; allowfullscreen frameborder=&#34;0&#34;&gt;&lt;/iframe&gt;
+ &lt;/div&gt;
+
+</description>
+    </item>
     
     <item>
       <title>floats</title>
