@@ -20,7 +20,7 @@
 &lt;p&gt;We have implemented the behavior of the boids. They follow a simple set of rules, inspired from
 &lt;a href=&#34;http://www.red3d.com/cwr/boids/&#34;&gt;&lt;em&gt;Craig Reynolds&lt;/em&gt;&lt;/a&gt; work in the 80&amp;rsquo;s. The basic rules the boids follow are:&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;Separation&lt;/strong&gt;: steer to avoid crowding local&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Separation&lt;/strong&gt;: steer to avoid crowding local flockmates&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;Alignment&lt;/strong&gt;: steer towards the average heading of local flockmates&lt;/p&gt;
 
