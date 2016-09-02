@@ -1,5 +1,4 @@
 #include "QuadTree.hpp"
-//#include <math.h>
 
 int QuadTree::node_count = 0;
 
@@ -59,7 +58,6 @@ bool QuadTree::has_child() {
 }
 
 void QuadTree::get_neighbors(Entity * e, float dist, std::vector<Entity*> & result) {
-	// TODO, start search at node?
 	QuadTree * current_node = e->node;
 	while(!((e->pos.x + dist <= current_node->pos.x + current_node->size) &&  // right
 		(e->pos.x - dist > current_node->pos.x) &&							  // left
@@ -125,21 +123,6 @@ bool circle_intersect_rect(sf::Vector3f cpos, float radius, sf::Vector3f rpos, f
 
 void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*> & res) {
 	draw_p();
-	//float n = dist*dist;
-	//bool h1 = (e->pos.x - (pos.x)) * (e->pos.x - (pos.x))				+ (e->pos.z - (pos.z)) * (e->pos.z - (pos.z)) < n;
-	//bool h2 = (e->pos.x - (pos.x + size)) * (e->pos.x - (pos.x + size)) + (e->pos.z - (pos.z)) * (e->pos.z - (pos.z)) < n;
-	//bool h3 = (e->pos.x - (pos.x)) * (e->pos.x - (pos.x))				+ (e->pos.z - (pos.z + size)) * (e->pos.z - (pos.z + size)) < n;
-	//bool h4 = (e->pos.x - (pos.x + size)) * (e->pos.x - (pos.x + size)) + (e->pos.z - (pos.z + size)) * (e->pos.z - (pos.z + size)) < n;
-
-	////Completely in range, add all entities
-	//if(h1 && h2 && h3 && h4) {
-	//	add_entities(res);
-	//	return;
-	//}
-	//Atleast part of the quadtree is in range, check all children
-	//if(h1 || h2 || h3 || h4) {
-	//if((x1 || x2) && (z1 || z2)) {
-	//if(circle_intersect_rect()) {
 	if(circle_intersect_rect(e->pos, dist, pos, size)) {
 
 		if(entity != nullptr) {
@@ -152,22 +135,6 @@ void QuadTree::add_entities_in_range(Entity * e, float dist, std::vector<Entity*
 			}
 		}
 	}
-
-	//The Quad encapsulates the range fully, add entity ~or~ check all children
-	//if(e->pos.x > pos.x &&
-	//	e->pos.x <= pos.x + size &&
-	//	e->pos.z > pos.z &&
-	//	e->pos.z <= pos.z + size) {
-	//	if(entity != nullptr) {
-	//		add_entities(res);
-	//		return;
-	//	}
-	//	for(int i = 0; i < 4; ++i) {
-	//		if(children[i] != nullptr) {
-	//			children[i]->add_entities_in_range(e, dist, res);
-	//		}
-	//	}
-	//}
 }
 
 void QuadTree::add_entities(std::vector<Entity*> & res, Entity * excluded_entity){
@@ -236,7 +203,6 @@ int QuadTree::in_quad(sf::Vector3f const & p) {
 	return 0;
 }
 
-//TODO make more beautiful
 void QuadTree::subdivide(int i) {
 	if(i == 0) {
 		if(children[0] == nullptr) {
@@ -301,14 +267,14 @@ bool QuadTree::insert(Entity * e) {
 		subdivide(in_quad(e->pos) - 1);
 		subdivide(in_quad(tmp->pos) - 1);
 
+		//TODO should never happen
 		if(!children[in_quad(e->pos) - 1]->insert(e)) {
-			//TODO should never happen
 			std::cerr << "Something is very wrong! " << std::endl;
 			std::cerr << "size: "  << size << std::endl;
 			std::cerr << "child size: " << children[in_quad(tmp->pos) - 1]->size << std::endl;
 		}
+		//TODO should never happen
 		if(!children[in_quad(tmp->pos) - 1]->insert(tmp)) {
-			//TODO should never happen
 			std::cerr << "Something is very wrong 2! " << std::endl;
 			std::cerr << "size: " << size << std::endl;
 			std::cerr << "child size: " << children[in_quad(tmp->pos) - 1]->size << std::endl;
@@ -329,7 +295,6 @@ void QuadTree::draw_p() {
 	float y = 1.0;
 	glPushMatrix();
 	glLoadIdentity();
-	//glColor3f(1.0, 0.0, 1.0);
 	glColor3ub(231, 57, 83);
 	glBegin(GL_LINE_LOOP);
 	{
@@ -353,6 +318,7 @@ void QuadTree::draw_r() {
 		glVertex3f(pos.x, y, pos.z + size);
 	}
 	glEnd();
+	//TODO add flag to print the possesion line
 	//if(entity != nullptr) {
 	//	glColor3f(0.0, 1.0, 1.0);
 	//	glBegin(GL_LINES);
@@ -368,64 +334,3 @@ void QuadTree::draw_r() {
 		}
 	}
 }
-
-//void QuadTree::clean() {
-//	if(entity == nullptr) {
-//		// no entity, either has children or removable
-//		bool canRemove = true;
-//		for(size_t i = 0; i < 4; i++) {
-//			if(children[i] != nullptr) {
-//				children[i]->clean();
-//				canRemove = false;
-//			}
-//		}
-//		// No entity and no children, dead leaf
-//		if(canRemove) {
-//			std::cout << "removed node" << std::endl;
-//			delete this;
-//		}
-//	} else {
-//		// has entity, test if we can relocate up one level
-//		if(parent != nullptr && !hasSiblings()) {
-//			// Move entity up and delete the children
-//			std::cout << "Moved up entity" << std::endl;
-//			parent->entity = entity;
-//			for(size_t i = 0; i < 4; i++) {
-//				if(parent->children[i] != nullptr) {
-//					delete children[i];
-//				}
-//			}
-//			// test if we can continue to move the entity up
-//			//parent->clean();
-//		}
-//	}
-//}
-
-//bool QuadTree::hasSiblings() {
-//	if(parent != nullptr) {
-//		for(size_t i = 0; i < 4; i++) {
-//			if(parent->children[i] != nullptr && parent->children[i] != this)
-//				return true;
-//		}
-//		return false;
-//	}
-//	return true;
-//}
-
-//bool QuadTree::clean() {
-//	if(entity != nullptr) {
-//		return false;
-//	}
-//	bool deletable = true;
-//	for(int i = 0; i < 4; i++) {
-//		if(children[i] != nullptr) {
-//			if(children[i]->clean()) {
-//				delete children[i];
-//				children[i] = nullptr;
-//			} else {
-//				deletable = false;
-//			}
-//		}
-//	}
-//	return deletable;
-//}

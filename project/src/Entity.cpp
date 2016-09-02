@@ -1,6 +1,5 @@
 #include "Entity\Entity.hpp"
 
-
 QuadTree * Entity::root_node = nullptr;
 
 Entity::Entity(sf::Vector3f pos, sf::Vector3f vel) :

@@ -10,7 +10,7 @@ struct Entity {
 	QuadTree * node;
 
 	sf::Vector3f pos, vel;
-	sf::Vector2f rot;//x = mouse x delta (rotation around y-axis), y = mouse y delta (rotation around the x-axis)
+	sf::Vector2f rot;
 	sf::Vector3f direction, left;
 
 	Entity(sf::Vector3f pos = sf::Vector3f(0.0, 0.0, 0.0), sf::Vector3f vel = sf::Vector3f(0.0, 0.0, 0.0));

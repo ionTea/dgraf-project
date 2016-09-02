@@ -116,13 +116,13 @@ int main() {
 			}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) camera.moveX(-150);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) camera.moveX(150);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) camera.moveZ(150);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) camera.moveZ(-150);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) camera.moveY(150);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) camera.moveY(150);
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) camera.moveY(-150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)) camera.moveX(-150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)) camera.moveX(150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)) camera.moveZ(150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)) camera.moveZ(-150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LShift)) camera.moveY(150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) camera.moveY(150);
+		if(sf::Keyboard::isKeyPressed(sf::Keyboard::LControl)) camera.moveY(-150);
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) big_boid.pos.x += 2;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) big_boid.pos.x -= 2;
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) big_boid.pos.z += 2;
@@ -170,34 +170,8 @@ int main() {
 			}
 		}
 
-		
-
-		//for(auto & b : boids) {
-		//	auto s = b->node->get_neighbors(b, radius);
-		//	draw_circle(b->pos, radius);
-
-		//	for(auto * b2 : s) {
-		//		//b->draw();
-		//		glColor3f(0.0, 1.0, 0.0);
-		//		glBegin(GL_LINE_LOOP);
-		//		{
-		//			glVertex3f(b2->pos.x - 2.0, 0.0, b2->pos.z - 2.0);
-		//			glVertex3f(b2->pos.x + 2.0, 0.0, b2->pos.z - 2.0);
-		//			glVertex3f(b2->pos.x + 2.0, 0.0, b2->pos.z + 2.0);
-		//			glVertex3f(b2->pos.x - 2.0, 0.0, b2->pos.z + 2.0);
-		//		}
-		//		glEnd();
-		//	}
-		//}
-
-		//window.pushGLStates();
-		//Draw other stuff
-		//window.draw(text);
-		//window.popGLStates();
-
 		window.display();
 		sanity_check(boids);
 	}
 	return 0;
 }
-

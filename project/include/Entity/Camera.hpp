@@ -9,9 +9,6 @@ struct Camera : public Entity {
 
 	virtual void update(float elapsed_time) {
 		Entity::update(elapsed_time);
-		//pos.x += vel.x * elapsed_time;
-		//pos.y += vel.y * elapsed_time;
-		//pos.z += vel.z * elapsed_time;
 		vel.x = 0.0;
 		vel.y = 0.0;
 		vel.z = 0.0;

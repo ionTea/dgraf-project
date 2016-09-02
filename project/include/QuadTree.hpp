@@ -38,7 +38,4 @@ struct QuadTree {
 	void draw();
 	void draw_p();
 	void draw_r();
-
-	//void clean();
-	//bool hasSiblings();
 };
